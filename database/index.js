@@ -30,11 +30,16 @@ let save = repos => {
 };
 
 let find = () => {
-  return Repo.find()
+  return Repo.find({})
+  .lean()
   .sort({stars: -1, watchers: -1})
   .limit(25)
-  .exec();
+  .exec(function(err, docs) {
+    console.log('RETRIEVED DOCS', docs); //docs contains list of repo objects
+  });
 }
 
 
+
 module.exports.save = save;
+module.exports.find = find;

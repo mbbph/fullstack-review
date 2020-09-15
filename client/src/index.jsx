@@ -3,31 +3,40 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
+import axios from 'axios';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       repos: []
-    }
-
+    };
+    this.search = this.search.bind(this);
   }
 
-  search (term) {
-    let query = {username: term};
-    $.ajax({
-      url: '/repos',
-      type: 'POST',
-      contentType: 'application/json',
-      data: JSON.stringify(query),
-      success: () => {
-        console.log("POST successfully sent")
-      },
-      error: (err) => {
-        console.log('POST Failed', err);
-      }
+  search(term) {
+    console.log(`${term} was searched`);
+    $.post('/repos', {username: term})
+    .done((data) => {
+      console.log('POST REQUEST MADE TO SERVER');
+      //if post request goes through, then make get request
+      $.get('/repos')
+      .done((data) => { //data doesnt contain anything atm
+        console.log('DATA WAS SUCCESSFULLY FETCHED FROM SERVER', data);
+        this.setState({
+          repos: data
+        });
+      })
+      .catch((err) => {
+        console.log('THERE WAS AN ERROR GETTING DATA FROM SERVER :(');
+      });
+    })
+    .fail((error) => {
+      console.log('ERROR: ', error);
     });
   }
+
+
 
   render () {
     return (<div>
