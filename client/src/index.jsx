@@ -12,23 +12,37 @@ class App extends React.Component {
       repos: []
     };
     this.search = this.search.bind(this);
+    this.getRepos = this.getRepos.bind(this);
+
+
+  }
+  componentDidMount() {
+    this.getRepos();
+  }
+
+  getRepos() {
+    return axios.get('/repos').then(({ data }) => {
+      this.setState({
+        repos: data
+      });
+    });
   }
 
   search(term) {
     console.log(`${term} was searched`);
     $.post('/repos', {username: term})
     .done((data) => {
-      console.log('POST REQUEST MADE TO SERVER');
+      //console.log('POST REQUEST MADE TO SERVER');
       //if post request goes through, then make get request
       $.get('/repos')
       .done((data) => { //data doesnt contain anything atm
-        console.log('DATA WAS SUCCESSFULLY FETCHED FROM SERVER', data);
+        //console.log('DATA WAS SUCCESSFULLY FETCHED FROM SERVER', data);
         this.setState({
           repos: data
         });
       })
       .catch((err) => {
-        console.log('THERE WAS AN ERROR GETTING DATA FROM SERVER :(');
+        //console.log('THERE WAS AN ERROR GETTING DATA FROM SERVER :(');
       });
     })
     .fail((error) => {

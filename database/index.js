@@ -35,7 +35,7 @@ let find = () => {
   .sort({stars: -1, watchers: -1})
   .limit(25)
   .exec(function(err, docs) {
-    console.log('RETRIEVED DOCS', docs); //docs contains list of repo objects
+    //console.log('RETRIEVED DOCS', docs); //docs contains list of repo objects
   });
 }
 

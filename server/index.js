@@ -9,7 +9,7 @@ app.use(express.static(__dirname + '/../client/dist'));
 app.use(parser.urlencoded({ extended: true }));
 
 app.post('/repos', function(req, res) {
-  console.log('POST REQUEST RECEIVED');
+  //console.log('POST REQUEST RECEIVED');
   let { username } = req.body;
   if (!username) {
     res.sendStatus(400);
@@ -21,14 +21,14 @@ app.post('/repos', function(req, res) {
       res.sendStatus(500);
       console.log(err);
     } else {
-      console.log('REPOS PRIOR TO STORAGE', repos);
+      //console.log('REPOS PRIOR TO STORAGE', repos);
       save(repos)
         .then(() => {
-          console.log('REPOS SUCCESSFULLY STORED IN DB')
+          //console.log('REPOS SUCCESSFULLY STORED IN DB')
           res.sendStatus(201);
         })
         .catch(err => {
-          console.log('REPOS COULD NOT BE STORED IN DB')
+          //console.log('REPOS COULD NOT BE STORED IN DB')
           res.sendStatus(500);
         });
     }
@@ -38,11 +38,11 @@ app.post('/repos', function(req, res) {
 app.get('/repos', function(req, res) {
   find()
     .then(repos => {
-      console.log('REPOS SUCCESSFULLY FETCHED FROM DB', repos);
+      //console.log('REPOS SUCCESSFULLY FETCHED FROM DB', repos);
       res.status(200).send(repos);
     })
     .catch(err => {
-      console.log('COULD NOT GET REPOS FROM DB')
+      //console.log('COULD NOT GET REPOS FROM DB')
       console.log(err);
     });
 });
